@@ -1,3 +1,7 @@
+"scripts": {
+    "start": "webpack-dev-server --hot"
+}
+
 {
   "name": "nodejsexpressapp",
   "version": "1.0.0",
