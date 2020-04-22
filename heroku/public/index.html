@@ -68,7 +68,7 @@ button:focus {
     color: #f44336;
 }
 
-#create-todo-input {
+#create-color-input {
     border: none;
     border-radius: 0;
     border-bottom: 1px solid #424242;
@@ -81,12 +81,12 @@ button:focus {
     font-family: 'Roboto Mono';
 }
 
-#create-todo-input:focus {
+#create-color-input:focus {
     /* sky blue */
     border-bottom: 3px solid #03A9F4;
 }
 
-#create-todo-btn {
+#create-color-btn {
     display: inline-block;
     border: none;
     appearance: none;
@@ -200,7 +200,7 @@ button:focus {
     display: none !important;
 }
 
-.todo-create-div {
+.color-create-div {
     text-align: left;
 }
 
@@ -208,7 +208,7 @@ button:focus {
     text-align: left;
 }
 
-.todo-check-box {
+.color-check-box {
     display: inline-block;
     vertical-align: middle;
     cursor: pointer;
@@ -224,11 +224,11 @@ button:focus {
     margin-right: calc(1rem + .5vw);
 }
 
-.todo-check-box:checked {
+.color-check-box:checked {
     background-color: #03A9F4;
 }
 
-.todo-check-box:focus {
+.color-check-box:focus {
     outline: none;
     box-shadow: none;
 }
@@ -239,7 +239,7 @@ button:focus {
     color: #E0E0E0 !important;
 }
 
-.todo-label {
+.color-label {
     display: inline-block;
     vertical-align: middle;
     overflow-wrap: break-word;
@@ -389,10 +389,10 @@ footer {
             </div>
         </div>
         <div class="content-div">
-            <div class="todo-create-div">
+            <div class="color-create-div">
                 <input id="toggle-all-btn" class="hide" type="checkbox" onclick="controller.toggleAll()">
-                <input id="create-todo-input" type="text" placeholder="Please enter here" onkeyup="controller.createTodoEntered()">
-                <button id="create-todo-btn" class="hide" onclick="controller.createTodo()">+</button>
+                <input id="create-color-input" type="text" placeholder="Please enter here" onkeyup="controller.createcolorEntered()">
+                <button id="create-color-btn" class="hide" onclick="controller.createcolor()">+</button>
                 <div id="alert-box"></div>
             </div>
             <div class="colors-view-box">
@@ -406,15 +406,15 @@ footer {
     <script>//  Global variables declared for enter and escape keys.
 var enter_key = 13;
 var esc_key = 27;
-//  todoModel object represents the model of this app.
-var todoModel = {
+//  colorModel object represents the model of this app.
+var colorModel = {
     colors: [],
     countcolors: function () {
         var totalcolors = this.colors.length;
         var completedcolors = 0;
         //  Gets the number of completed colors.
-        this.colors.forEach(function (todo) {
-            if (todo.completed === true) {
+        this.colors.forEach(function (color) {
+            if (color.completed === true) {
                 completedcolors++;
             }
         });
@@ -423,13 +423,13 @@ var todoModel = {
             completedcolors: completedcolors
         };
     },
-    createTodo: function (todoText) {
+    createcolor: function (colorText) {
         var alertBox = document.getElementById("alert-box");
-        //  We trim the users todo input before adding it to our data array.
-        var trimmedTodoText = todoText.trim();
-        if (trimmedTodoText) {
+        //  We trim the users color input before adding it to our data array.
+        var trimmedcolorText = colorText.trim();
+        if (trimmedcolorText) {
             this.colors.push({
-                todoText: trimmedTodoText,
+                colorText: trimmedcolorText,
                 completed: false
             });
             alertBox.textContent = "";
@@ -440,37 +440,37 @@ var todoModel = {
             }, 3000);
         }
     },
-    changeTodo: function (position, todoText) {
-        this.colors[position].todoText = todoText;
+    changecolor: function (position, colorText) {
+        this.colors[position].colorText = colorText;
     },
-    deleteTodo: function (position) {
+    deletecolor: function (position) {
         this.colors.splice(position, 1);
     },
-    //  Takes in todo item position and switches the boolean value of the completed status.
+    //  Takes in color item position and switches the boolean value of the completed status.
     toggleCompleted: function (position) {
-        //  Grabs the todo item from the array and sets it to the todo variable.
-        var todo = this.colors[position];
+        //  Grabs the color item from the array and sets it to the color variable.
+        var color = this.colors[position];
         //  Switches the boolean value of the completed status.
-        todo.completed = !todo.completed;
+        color.completed = !color.completed;
     },
     toggleAll: function () {
         var totalcolors = this.colors.length;
         var completedcolors = 0;
 
         //  Gets the number of completed colors.
-        this.colors.forEach(function (todo) {
-            if (todo.completed === true) {
+        this.colors.forEach(function (color) {
+            if (color.completed === true) {
                 completedcolors++;
             }
         });
 
-        this.colors.forEach(function (todo) {
+        this.colors.forEach(function (color) {
             //  Case 1: If everything's true, make everything false.
             if (completedcolors === totalcolors) {
-                todo.completed = false;
+                color.completed = false;
                 //  Case 2: Otherwise, make everything true.
             } else {
-                todo.completed = true;
+                color.completed = true;
             }
         });
     },
@@ -490,13 +490,13 @@ var view = {
         //  Clears out the content inside <ul> to make sure we're starting clean.
         colorsUl.innerHTML = "";
         //  Note that the 'this' argument in the forEach method is to bind 'this' for the callback function so it has access to the view object inside the callback.
-        todoModel.colors.forEach(function (todo, position) {
+        colorModel.colors.forEach(function (color, position) {
             //  Creates an li element
-            var todoLi = document.createElement("li");
+            var colorLi = document.createElement("li");
             //  Builds the checkbox
             var toggleCheckbox = document.createElement("input");
             toggleCheckbox.type = "checkbox";
-            toggleCheckbox.classList.add("todo-check-box");
+            toggleCheckbox.classList.add("color-check-box");
             toggleCheckbox.setAttribute(
                 "onchange",
                 "controller.toggleCompleted(this)"
@@ -506,14 +506,14 @@ var view = {
             var updateBox = document.createElement("input");
             updateBox.classList.add("update-Box", "hide");
             updateBox.type = "text";
-            updateBox.value = todo.todoText;
+            updateBox.value = color.colorText;
             updateBox.setAttribute("onkeyup", "controller.updateKeyup(this)");
             updateBox.setAttribute("onfocusout", "controller.updateFocusOut(this)");
-            //  Builds the todo item text label
-            var todoItemLabel = document.createElement("label");
-            todoItemLabel.setAttribute("onclick", "controller.updatingMode(this)");
-            todoItemLabel.textContent = todo.todoText;
-            todoItemLabel.classList.add("todo-label");
+            //  Builds the color item text label
+            var colorItemLabel = document.createElement("label");
+            colorItemLabel.setAttribute("onclick", "controller.updatingMode(this)");
+            colorItemLabel.textContent = color.colorText;
+            colorItemLabel.classList.add("color-label");
             //  Builds the mobile edit button
             var mobileEditButton = document.createElement("button");
             mobileEditButton.setAttribute(
@@ -523,50 +523,50 @@ var view = {
             mobileEditButton.textContent = "Edit";
             mobileEditButton.classList.add("hide", "editButton");
             //  Removes hide class on mobile edit button if mobile is detected as true
-            if (todoModel.isMobileDevice()) {
+            if (colorModel.isMobileDevice()) {
                 mobileEditButton.classList.remove("hide");
             }
             //  Toggles the strikethrough class when user clicks checkbox or toggle all.
-            if (todo.completed === true) {
-                todoItemLabel.classList.add("colors-strikethrough");
+            if (color.completed === true) {
+                colorItemLabel.classList.add("colors-strikethrough");
             } else {
-                todoItemLabel.classList.remove("colors-strikethrough");
+                colorItemLabel.classList.remove("colors-strikethrough");
             }
-            //  Sets the position of the forEach loop as the id for the todoLi element we're building.
-            todoLi.id = position;
-            //  Displays checked or unchecked for checkbox depending on todo item completed status.
-            if (todo.completed === true) {
+            //  Sets the position of the forEach loop as the id for the colorLi element we're building.
+            colorLi.id = position;
+            //  Displays checked or unchecked for checkbox depending on color item completed status.
+            if (color.completed === true) {
                 toggleCheckbox.checked = true;
             } else {
                 toggleCheckbox.checked = false;
             }
             //  Adds the built-up toggleCheckbox as a child of the <li> element.
-            todoLi.appendChild(toggleCheckbox);
-            //  Adds the built-up todo item label as a child of the <li> element.
-            todoLi.appendChild(todoItemLabel);
-            //  Add the text box with colors text after the todo text node.
-            todoLi.appendChild(updateBox);
+            colorLi.appendChild(toggleCheckbox);
+            //  Adds the built-up color item label as a child of the <li> element.
+            colorLi.appendChild(colorItemLabel);
+            //  Add the text box with colors text after the color text node.
+            colorLi.appendChild(updateBox);
             // Add the mobile edit button here
-            // todoLi.appendChild(mobileEditButton);
+            // colorLi.appendChild(mobileEditButton);
             //  Adds the delete button as a child to the created <li> element by running the createDeleteButton method.
-            todoLi.appendChild(this.createDeleteButton());
+            colorLi.appendChild(this.createDeleteButton());
             // Adds the finalized <li> element in the beginning of the <ul> as a child of the <ul> element.
-            colorsUl.insertBefore(todoLi, colorsUl.childNodes[0]);
+            colorsUl.insertBefore(colorLi, colorsUl.childNodes[0]);
         }, this);
-        //  Shows the toggleAll button if there's at least one todo. Hides it if there's no colors.
+        //  Shows the toggleAll button if there's at least one color. Hides it if there's no colors.
         var toggleAllButton = document.querySelector("#toggle-all-btn");
-        if (todoModel.countcolors().totalcolors > 0) {
+        if (colorModel.countcolors().totalcolors > 0) {
             toggleAllButton.classList.remove("hide");
         } else {
             toggleAllButton.classList.add("hide");
         }
-        //  Shows the create todo button if user types something. Once user removes their input or enter a new todo, it will disappear.
-        var createTodoButton = document.querySelector("#create-todo-btn");
-        var inputElement = document.getElementById("create-todo-input");
+        //  Shows the create color button if user types something. Once user removes their input or enter a new color, it will disappear.
+        var createcolorButton = document.querySelector("#create-color-btn");
+        var inputElement = document.getElementById("create-color-input");
         if (inputElement.value) {
-            createTodoButton.classList.remove("hide");
+            createcolorButton.classList.remove("hide");
         } else {
-            createTodoButton.classList.add("hide");
+            createcolorButton.classList.add("hide");
         }
     },
     toggleHide: function (selectedElement) {
@@ -592,7 +592,7 @@ var view = {
 
             //  Check if elementClicked is a delete button.//  Global variables declared for enter and escape keys.
             if (elementClicked.className === "delete-btn") {
-                controller.deleteTodo(parseInt(elementClicked.parentNode.id));
+                controller.deletecolor(parseInt(elementClicked.parentNode.id));
             }
         });
     }
@@ -600,20 +600,20 @@ var view = {
 
 //  controller object represents the controller of this app.
 var controller = {
-    createTodo: function () {
-        var createTodoTextInput = document.getElementById("create-todo-input");
-        todoModel.createTodo(createTodoTextInput.value);
-        createTodoTextInput.value = "";
+    createcolor: function () {
+        var createcolorTextInput = document.getElementById("create-color-input");
+        colorModel.createcolor(createcolorTextInput.value);
+        createcolorTextInput.value = "";
         view.displaycolors();
     },
-    createTodoEntered: function () {
-        var inputElement = document.getElementById("create-todo-input");
+    createcolorEntered: function () {
+        var inputElement = document.getElementById("create-color-input");
         if (inputElement.value && event.keyCode === enter_key) {
-            // On mobile, defocuses input to hide soft keyboard so user can see their entered todo item.
-            if (todoModel.isMobileDevice()) {
+            // On mobile, defocuses input to hide soft keyboard so user can see their entered color item.
+            if (colorModel.isMobileDevice()) {
                 inputElement.blur();
             }
-            this.createTodo();
+            this.createcolor();
         }
         view.displaycolors();
     },
@@ -622,14 +622,14 @@ var controller = {
         var id = updateInputElement.parentNode.getAttribute("id");
         // Grabs the new input value that the user entered.
         var newUpdateInputValue = updateInputElement.value;
-        // If the there's something in the update box and enter key was pressed, then run the changeTodo method. 
+        // If the there's something in the update box and enter key was pressed, then run the changecolor method. 
         if (updateInputElement.value && event.keyCode === enter_key) {
-            this.changeTodo(id, newUpdateInputValue);
+            this.changecolor(id, newUpdateInputValue);
         }
         // If the esc key was pressed then we reset the value back to the original stored value in our colors array.
         if (event.keyCode === esc_key) {
             //  Very important line. If the updateInputElement.value is not reset to the original value, then updateFocusOut method would still run and update the data even when esc key is pressed.
-            updateInputElement.value = todoModel.colors[id].todoText;
+            updateInputElement.value = colorModel.colors[id].colorText;
             view.displaycolors();
         }
     },
@@ -637,24 +637,24 @@ var controller = {
         var id = updateInputElement.parentNode.getAttribute("id");
         var newUpdateInputValue = updateInputElement.value;
         if (updateInputElement.value) {
-            this.changeTodo(id, newUpdateInputValue);
+            this.changecolor(id, newUpdateInputValue);
         } else {
-            controller.deleteTodo(id);
+            controller.deletecolor(id);
         }
     },
-    changeTodo: function (id, value) {
-        todoModel.changeTodo(id, value);
+    changecolor: function (id, value) {
+        colorModel.changecolor(id, value);
         view.displaycolors();
     },
-    deleteTodo: function (position) {
-        todoModel.deleteTodo(position);
+    deletecolor: function (position) {
+        colorModel.deletecolor(position);
         view.displaycolors();
     },
-    updatingMode: function (todoLabelElement) {
-        var updateBoxElement = todoLabelElement.parentNode.querySelector(
+    updatingMode: function (colorLabelElement) {
+        var updateBoxElement = colorLabelElement.parentNode.querySelector(
             ".update-Box"
         );
-        view.toggleHide(todoLabelElement);
+        view.toggleHide(colorLabelElement);
         view.toggleHide(updateBoxElement);
         updateBoxElement.focus();
     },
@@ -662,21 +662,21 @@ var controller = {
         var updateBoxElement = editButtonElement.parentNode.querySelector(
             ".update-Box"
         );
-        var todoLabelElement = editButtonElement.parentNode.querySelector(
-            ".todo-label"
+        var colorLabelElement = editButtonElement.parentNode.querySelector(
+            ".color-label"
         );
-        view.toggleHide(todoLabelElement);
+        view.toggleHide(colorLabelElement);
         view.toggleHide(updateBoxElement);
     },
-    //  The controller for the todo item toggle. Takes the argument 'this' from the toggle check box in the DOM.
+    //  The controller for the color item toggle. Takes the argument 'this' from the toggle check box in the DOM.
     toggleCompleted: function (toggleElement) {
-        //  Gets the id from the parent (<li>) of the toggle check box and passes it to the toggleCompleted in the model. toggleCompleted switches the boolean value in the actual todo item object.
-        todoModel.toggleCompleted(toggleElement.parentNode.getAttribute("id"));
+        //  Gets the id from the parent (<li>) of the toggle check box and passes it to the toggleCompleted in the model. toggleCompleted switches the boolean value in the actual color item object.
+        colorModel.toggleCompleted(toggleElement.parentNode.getAttribute("id"));
         //  Runs the view.displaycolors() to update the DOM so the user can see the changes.
         view.displaycolors();
     },
     toggleAll: function () {
-        todoModel.toggleAll();
+        colorModel.toggleAll();
         view.displaycolors();
     }
 };
