@@ -204,7 +204,7 @@ button:focus {
     text-align: left;
 }
 
-.todos-view-box {
+.colors-view-box {
     text-align: left;
 }
 
@@ -233,7 +233,7 @@ button:focus {
     box-shadow: none;
 }
 
-.todos-strikethrough {
+.colors-strikethrough {
     text-decoration: line-through;
     /*light grey*/
     color: #E0E0E0 !important;
@@ -352,31 +352,31 @@ footer {
             </div>
         </div>
         <div class="tutorial-div hide">
-            <h2>Track your todos</h2>
+            <h2>Your favorite color</h2>
             <div class="feature-div">
                 <span class="feature-title">1-ADD</span>
                 <div class="feature-text">
-                    Add your todo by pressing the enter key or tap the '+' button.
+                    Add your favorite color by pressing the enter key or tap the '+' button.
                 </div>
             </div>
             <div class="feature-div">
                 <span class="feature-title">2-SEE</span>
                 <div class="feature-text">
-                    You'll see it right away after you add a todo. 
-                    Your latest todo will appear 1st on the list.
+                    You'll see it right away after you add your favorite color. 
+                    Your latest color will appear 1st on the list.
                 </div>
             </div>
             <div class="feature-div">
                 <span class="feature-title">3-CHECK</span>
                 <div class="feature-text">
-                    Check off what you've done with the dark blue checkbox next to your todo.
-                    Mark all your todos as done with the dark blue checkmark button.
+                    Check off or delete with the dark blue checkbox next to your color choice.
+                    Mark all your faviorite with the dark blue checkmark button.
                 </div>
             </div>
             <div class="feature-div">
                 <span class="feature-title">4-CHANGE</span>
                 <div class="feature-text">
-                    Make changes by tapping on your todo.
+                    Make changes by tapping on your colors.
                     Save it by pressing enter key on your keyboard or tap outside of the box.
                     Cancel your change by pressing escape key on your keyword.
                 </div>
@@ -384,7 +384,7 @@ footer {
             <div class="feature-div">
                 <span class="feature-title">5-DELETE</span>
                 <div class="feature-text">
-                    Delete your todo by tapping the 'x' button next to your todo.
+                    Delete your colore by tapping the 'x' button next to your color.
                 </div>
             </div>
         </div>
@@ -395,7 +395,7 @@ footer {
                 <button id="create-todo-btn" class="hide" onclick="controller.createTodo()">+</button>
                 <div id="alert-box"></div>
             </div>
-            <div class="todos-view-box">
+            <div class="colors-view-box">
                 <br>
                 <ul></ul>
             </div>
@@ -408,19 +408,19 @@ var enter_key = 13;
 var esc_key = 27;
 //  todoModel object represents the model of this app.
 var todoModel = {
-    todos: [],
-    countTodos: function () {
-        var totalTodos = this.todos.length;
-        var completedTodos = 0;
-        //  Gets the number of completed todos.
-        this.todos.forEach(function (todo) {
+    colors: [],
+    countcolors: function () {
+        var totalcolors = this.colors.length;
+        var completedcolors = 0;
+        //  Gets the number of completed colors.
+        this.colors.forEach(function (todo) {
             if (todo.completed === true) {
-                completedTodos++;
+                completedcolors++;
             }
         });
         return {
-            totalTodos: totalTodos,
-            completedTodos: completedTodos
+            totalcolors: totalcolors,
+            completedcolors: completedcolors
         };
     },
     createTodo: function (todoText) {
@@ -428,7 +428,7 @@ var todoModel = {
         //  We trim the users todo input before adding it to our data array.
         var trimmedTodoText = todoText.trim();
         if (trimmedTodoText) {
-            this.todos.push({
+            this.colors.push({
                 todoText: trimmedTodoText,
                 completed: false
             });
@@ -441,32 +441,32 @@ var todoModel = {
         }
     },
     changeTodo: function (position, todoText) {
-        this.todos[position].todoText = todoText;
+        this.colors[position].todoText = todoText;
     },
     deleteTodo: function (position) {
-        this.todos.splice(position, 1);
+        this.colors.splice(position, 1);
     },
     //  Takes in todo item position and switches the boolean value of the completed status.
     toggleCompleted: function (position) {
         //  Grabs the todo item from the array and sets it to the todo variable.
-        var todo = this.todos[position];
+        var todo = this.colors[position];
         //  Switches the boolean value of the completed status.
         todo.completed = !todo.completed;
     },
     toggleAll: function () {
-        var totalTodos = this.todos.length;
-        var completedTodos = 0;
+        var totalcolors = this.colors.length;
+        var completedcolors = 0;
 
-        //  Gets the number of completed todos.
-        this.todos.forEach(function (todo) {
+        //  Gets the number of completed colors.
+        this.colors.forEach(function (todo) {
             if (todo.completed === true) {
-                completedTodos++;
+                completedcolors++;
             }
         });
 
-        this.todos.forEach(function (todo) {
+        this.colors.forEach(function (todo) {
             //  Case 1: If everything's true, make everything false.
-            if (completedTodos === totalTodos) {
+            if (completedcolors === totalcolors) {
                 todo.completed = false;
                 //  Case 2: Otherwise, make everything true.
             } else {
@@ -484,13 +484,13 @@ var todoModel = {
 
 //  view object represents the view of this app.
 var view = {
-    displayTodos: function () {
-        //  grabs the <ul> element and sets it to todosUl variable.
-        var todosUl = document.querySelector("ul");
+    displaycolors: function () {
+        //  grabs the <ul> element and sets it to colorsUl variable.
+        var colorsUl = document.querySelector("ul");
         //  Clears out the content inside <ul> to make sure we're starting clean.
-        todosUl.innerHTML = "";
+        colorsUl.innerHTML = "";
         //  Note that the 'this' argument in the forEach method is to bind 'this' for the callback function so it has access to the view object inside the callback.
-        todoModel.todos.forEach(function (todo, position) {
+        todoModel.colors.forEach(function (todo, position) {
             //  Creates an li element
             var todoLi = document.createElement("li");
             //  Builds the checkbox
@@ -528,9 +528,9 @@ var view = {
             }
             //  Toggles the strikethrough class when user clicks checkbox or toggle all.
             if (todo.completed === true) {
-                todoItemLabel.classList.add("todos-strikethrough");
+                todoItemLabel.classList.add("colors-strikethrough");
             } else {
-                todoItemLabel.classList.remove("todos-strikethrough");
+                todoItemLabel.classList.remove("colors-strikethrough");
             }
             //  Sets the position of the forEach loop as the id for the todoLi element we're building.
             todoLi.id = position;
@@ -544,18 +544,18 @@ var view = {
             todoLi.appendChild(toggleCheckbox);
             //  Adds the built-up todo item label as a child of the <li> element.
             todoLi.appendChild(todoItemLabel);
-            //  Add the text box with todos text after the todo text node.
+            //  Add the text box with colors text after the todo text node.
             todoLi.appendChild(updateBox);
             // Add the mobile edit button here
             // todoLi.appendChild(mobileEditButton);
             //  Adds the delete button as a child to the created <li> element by running the createDeleteButton method.
             todoLi.appendChild(this.createDeleteButton());
             // Adds the finalized <li> element in the beginning of the <ul> as a child of the <ul> element.
-            todosUl.insertBefore(todoLi, todosUl.childNodes[0]);
+            colorsUl.insertBefore(todoLi, colorsUl.childNodes[0]);
         }, this);
-        //  Shows the toggleAll button if there's at least one todo. Hides it if there's no todos.
+        //  Shows the toggleAll button if there's at least one todo. Hides it if there's no colors.
         var toggleAllButton = document.querySelector("#toggle-all-btn");
-        if (todoModel.countTodos().totalTodos > 0) {
+        if (todoModel.countcolors().totalcolors > 0) {
             toggleAllButton.classList.remove("hide");
         } else {
             toggleAllButton.classList.add("hide");
@@ -584,9 +584,9 @@ var view = {
         return deleteButton;
     },
     setUpEventListeners: function () {
-        var todosUl = document.querySelector("ul");
+        var colorsUl = document.querySelector("ul");
 
-        todosUl.addEventListener("click", function (event) {
+        colorsUl.addEventListener("click", function (event) {
             //  Get the element that was clicked on.
             var elementClicked = event.target;
 
@@ -604,7 +604,7 @@ var controller = {
         var createTodoTextInput = document.getElementById("create-todo-input");
         todoModel.createTodo(createTodoTextInput.value);
         createTodoTextInput.value = "";
-        view.displayTodos();
+        view.displaycolors();
     },
     createTodoEntered: function () {
         var inputElement = document.getElementById("create-todo-input");
@@ -615,7 +615,7 @@ var controller = {
             }
             this.createTodo();
         }
-        view.displayTodos();
+        view.displaycolors();
     },
     updateKeyup: function (updateInputElement) {
         // Grabs id attribute from parent <li> element
@@ -626,11 +626,11 @@ var controller = {
         if (updateInputElement.value && event.keyCode === enter_key) {
             this.changeTodo(id, newUpdateInputValue);
         }
-        // If the esc key was pressed then we reset the value back to the original stored value in our todos array.
+        // If the esc key was pressed then we reset the value back to the original stored value in our colors array.
         if (event.keyCode === esc_key) {
             //  Very important line. If the updateInputElement.value is not reset to the original value, then updateFocusOut method would still run and update the data even when esc key is pressed.
-            updateInputElement.value = todoModel.todos[id].todoText;
-            view.displayTodos();
+            updateInputElement.value = todoModel.colors[id].todoText;
+            view.displaycolors();
         }
     },
     updateFocusOut: function (updateInputElement) {
@@ -644,11 +644,11 @@ var controller = {
     },
     changeTodo: function (id, value) {
         todoModel.changeTodo(id, value);
-        view.displayTodos();
+        view.displaycolors();
     },
     deleteTodo: function (position) {
         todoModel.deleteTodo(position);
-        view.displayTodos();
+        view.displaycolors();
     },
     updatingMode: function (todoLabelElement) {
         var updateBoxElement = todoLabelElement.parentNode.querySelector(
@@ -672,12 +672,12 @@ var controller = {
     toggleCompleted: function (toggleElement) {
         //  Gets the id from the parent (<li>) of the toggle check box and passes it to the toggleCompleted in the model. toggleCompleted switches the boolean value in the actual todo item object.
         todoModel.toggleCompleted(toggleElement.parentNode.getAttribute("id"));
-        //  Runs the view.displayTodos() to update the DOM so the user can see the changes.
-        view.displayTodos();
+        //  Runs the view.displaycolors() to update the DOM so the user can see the changes.
+        view.displaycolors();
     },
     toggleAll: function () {
         todoModel.toggleAll();
-        view.displayTodos();
+        view.displaycolors();
     }
 };
 
@@ -685,13 +685,13 @@ view.setUpEventListeners();</script>
 
 	<footer>
     <a href="http://validator.w3.org/check?uri=referer" style="text-decoration:none;">
-        <img src="images/valid_html5.gif"  alt="Valid HTML 5" 
+        <img src="../images/valid_html5.gif"  alt="Valid HTML 5" 
         height="31" width="88" style="border:0px;" /> 
     </a>
 
     <a href="http://jigsaw.w3.org/css-validator/check/referer" style="text-decoration:none;">
         <img style="border:0;width:88px;height:31px"
-        src="images/vcss.gif" alt="Valid CSS!" />
+        src="../images/vcss.gif" alt="Valid CSS!" />
     </a>
 	 <br>&copy; 2020 - Designed by Safron Haile<br>
 
